@@ -300,9 +300,15 @@ IF (PAHO_WITH_SSL)
                     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                 PRIVATE
                     ${CMAKE_BINARY_DIR})
-            TARGET_LINK_LIBRARIES(${TARGET}
-                PUBLIC
-                    OpenSSL::SSL OpenSSL::Crypto ${LIBS_SYSTEM})
+			IF(__arm__)
+				TARGET_LINK_LIBRARIES(${TARGET}
+					PUBLIC
+						ssl crypto ${LIBS_SYSTEM})
+			ELSE()
+				TARGET_LINK_LIBRARIES(${TARGET}
+					PUBLIC
+						OpenSSL::SSL OpenSSL::Crypto ${LIBS_SYSTEM})
+			ENDIF()
         ENDFOREACH()
     ENDIF()
 ENDIF()
